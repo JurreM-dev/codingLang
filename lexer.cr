@@ -8,7 +8,7 @@ def tokenize(content)
     elsif(/[a-zA-Z]/.match(chars[index]))
       string = chars[index]
       next_index = index + 1
-      while next_index < chars.size && /[a-zA-Z]/.match(chars[next_index])
+      while next_index < chars.size && /[a-zA-Z0-9_]/.match(chars[next_index])
         string += chars[next_index]
         index += 1
         next_index += 1
@@ -21,6 +21,31 @@ def tokenize(content)
       return_chars.push({
         type: "EQUALS",
         value: "="
+      })
+    elsif(chars[index] === "'") 
+      next_index = index + 1
+      string = ""
+      while next_index < chars.size && chars[next_index] != "'"
+        string += chars[next_index]
+        next_index += 1
+        index += 1
+      end
+      index += 1
+      return_chars.push({
+        type: "STRING",
+        value: string
+      })
+    elsif(/\d/.match(chars[index]))
+      value = chars[index]
+      next_index = index + 1
+      while next_index < chars.size && /\d/.match(chars[next_index])
+        value += chars[next_index]
+        index += 1
+        next_index += 1
+      end
+      return_chars.push({
+        type: "NUM",
+        value: value
       })
     else 
       return_chars.push({
@@ -41,4 +66,4 @@ def testRun(chars)
   end
 end
 
-testRun(tokenize("let hi = sayhoi"))
+testRun(tokenize("let hi = 'sayhoi' 999999 6 'yoski' hoi ="))
