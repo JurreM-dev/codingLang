@@ -3,7 +3,7 @@ def tokenize(content)
   index = 0
   return_chars = [{type: "VOID", value: ""}]
   while index < content.size
-    if(chars[index] === " ")
+    if(chars[index] == " ")
 
     elsif(/[a-zA-Z]/.match(chars[index]))
       string = chars[index]
@@ -17,12 +17,22 @@ def tokenize(content)
         type: "IDENTIFIER",
         value: string
       })
-    elsif(chars[index] === "=")
+
+    elsif(chars[index] == "=")
+      if(chars[index + 1] == "=")
+        return_chars.push({
+          type: "CHECKEQUALS",
+          value: "=="
+        })
+        index += 1
+      else
       return_chars.push({
         type: "EQUALS",
         value: "="
       })
-    elsif(chars[index] === "'") 
+      end
+
+    elsif(chars[index] == "'") 
       next_index = index + 1
       string = ""
       while next_index < chars.size && chars[next_index] != "'"
@@ -47,6 +57,8 @@ def tokenize(content)
         type: "NUM",
         value: value
       })
+    elsif(chars[index] == "/"); return_chars.push({type: "FDASH", value: "/"})
+    elsif(chars[index] == "\\"); return_chars.push({type: "LDASH", value: "\\"})
     else 
       return_chars.push({
         type: "VOID",
@@ -66,4 +78,4 @@ def testRun(chars)
   end
 end
 
-testRun(tokenize("let hi = 'sayhoi' 999999 6 'yoski' hoi ="))
+testRun(tokenize("= == 92 / \\"))
