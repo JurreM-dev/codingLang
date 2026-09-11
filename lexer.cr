@@ -3,7 +3,7 @@ def tokenize(content)
   index = 0
   return_chars = [{type: "VOID", value: ""}]
   while index < content.size
-    if(chars[index] == " ")
+    if(/\s/.match(chars[index]))
 
     elsif(/[a-zA-Z]/.match(chars[index]))
       string = chars[index]
@@ -59,6 +59,10 @@ def tokenize(content)
       })
     elsif(chars[index] == "/"); return_chars.push({type: "FDASH", value: "/"})
     elsif(chars[index] == "\\"); return_chars.push({type: "LDASH", value: "\\"})
+    elsif(chars[index] == "("); return_chars.push({type: "LPARA", value: "("})
+    elsif(chars[index] == ")"); return_chars.push({type: "RPARA", value: ")"})
+    elsif(chars[index] == "{"); return_chars.push({type: "LBRACE", value: "{"})
+    elsif(chars[index] == "}"); return_chars.push({type: "RBRACE", value: "}"})
     else 
       return_chars.push({
         type: "VOID",
@@ -70,12 +74,32 @@ def tokenize(content)
 return return_chars
 end
 
-def testRun(chars)
-  i = 1
-  while i < chars.size 
-    puts chars[i]
-    i += 1
-  end
+def eat(expectedType, tokens, index : Int32)
+    if(!tokens[index] || tokens[index][:type] != expectedType)
+     puts "error"
+     {tokens[index], index + 1}
+    else 
+    {tokens[index], index + 1}
+    end
 end
 
-testRun(tokenize("= == 92 / \\"))
+alias AST_hash = Hash(String, String)
+def parse(tokens) 
+  ast = Array(AST_hash).new
+  index = 1
+  while index < tokens.size
+    case tokens[index][:value]
+    when "printf"
+      _, index = eat("IDENTIFIER", tokens, index)
+      _, index = eat("LPARA", tokens, index)
+      used_value, index = eat("STRING", tokens, index)
+      _, index = eat("RPARA", tokens, index)
+      value_current = used_value[:value]
+      ast_item = {"type" => "printing", "value" => value_current}
+      ast << ast_item
+    end
+  end
+  return ast
+end
+
+puts parse(tokenize("printf('hi')"))
