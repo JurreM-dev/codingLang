@@ -63,6 +63,7 @@ def tokenize(content)
     elsif(chars[index] == ")"); return_chars.push({type: "RPARA", value: ")"})
     elsif(chars[index] == "{"); return_chars.push({type: "LBRACE", value: "{"})
     elsif(chars[index] == "}"); return_chars.push({type: "RBRACE", value: "}"})
+    elsif(chars[index] == ":"); return_chars.push({type: "COLON", value: ":"})
     else 
       return_chars.push({
         type: "VOID",

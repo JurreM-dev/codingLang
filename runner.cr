@@ -5,5 +5,5 @@ require "./errors"
 
 errLogger = ErrorLogger.new
 
-evaluate(parse(tokenize("printf('hi') printf('yoski') test"), errLogger))
+evaluate(parse(tokenize("printf('hi') printf('yoski') int: age = 20"), errLogger))
 errLogger.error_log()

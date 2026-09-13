@@ -1,6 +1,7 @@
 def evaluate(ast)
   puts "============= RUNNING PROGRAM ============"
   index = 0
+  intenger_vars = Hash(String, Int32).new
   while index < ast.size
     case ast[index]["type"]
       when "printing"
