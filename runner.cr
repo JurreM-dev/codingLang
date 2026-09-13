@@ -1,4 +1,4 @@
 require "./lexer/lexer"
 require "./parser/parser"
-
-puts parse(tokenize("printf('hi') printf('yoski') test"))
+require "./executors/interpreter"
+evaluate(parse(tokenize("printf('hi') printf('yoski') test")))
