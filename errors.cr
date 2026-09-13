@@ -1,3 +1,4 @@
+require "colorize"
 class ErrorLogger
   def initialize
     @error_count = 0
@@ -13,7 +14,7 @@ class ErrorLogger
     if @error_count > 0
       puts "================ ERRORS =================="
       @error_messages.each do |error|
-        puts error
+        puts error .colorize(:red)
       end
       puts "=========================================="
     end

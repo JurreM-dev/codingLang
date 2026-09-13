@@ -26,8 +26,9 @@ def parse(tokens, errLogger)
       value_current = value_current.to_i
       if value_current.is_a?(Int32)
         ast_item = AST_hash{"type" => "variableDeclarationInt", "name" => varName, "value" => value_current}
+        ast << ast_item
       else
-  errLogger.add_error("ERROR, expected an intenger but got: #{typeof(value_current)}\nlunarMyth, parser index:#{index}")
+        errLogger.add_error("ERROR, expected an intenger but got: #{typeof(value_current)}\nlunarMyth, parser index:#{index}")
       end
     else 
       errLogger.add_error("ERROR, #{tokens[index][:value]} was not found as a valid statement\nlunarMyth, parser index:#{index}\n\n")

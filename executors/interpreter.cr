@@ -6,9 +6,11 @@ def evaluate(ast)
     case ast[index]["type"]
       when "printing"
         puts ast[index]["value"]
+      when "variableDeclarationInt"
+        intenger_vars[ast[index]["name"].as(String)] = ast[index]["value"].as(Int32)
       else
         puts "error in interpreter"
-    end
+      end
     index += 1
   end
   puts "=========================================="
