@@ -1,7 +1,7 @@
 require "./parser_functions"
 
 alias AST_hash = Hash(String, String)
-def parse(tokens) 
+def parse(tokens, errLogger) 
   ast = Array(AST_hash).new
   index = 1
   while index < tokens.size
@@ -15,11 +15,8 @@ def parse(tokens)
       value_current = used_value[:value]
       ast_item = {"type" => "printing", "value" => value_current}
       ast << ast_item
-    #when "int"
-      #name_value = eat("IDENTIFIER", tokens, index)
     else 
-      puts "ERROR, #{tokens[index][:value]} was not found as a valid statement"
-      puts "lunarMyth, parser index:#{index}"
+      errLogger.add_error("ERROR, #{tokens[index][:value]} was not found as a valid statement\nlunarMyth, parser index:#{index}\n\n")
       index += 1
     end
   end
