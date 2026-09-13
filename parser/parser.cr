@@ -75,9 +75,8 @@ class Parser
       @errLogger.add_error(
         "ERROR, expected type #{expectedType}\nlunarMyth, parser index:#{@index}"
       )
-      token = @tokens[@index]
-      @index += 1
-      return token
+      @errLogger.error_log()
+      exit(1)
     else
       token = @tokens[@index]
       @index += 1
