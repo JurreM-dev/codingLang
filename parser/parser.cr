@@ -15,6 +15,7 @@ def parse(tokens, errLogger)
       value_current = used_value[:value]
       ast_item = AST_hash{"type" => "printing", "value" => value_current}
       ast << ast_item
+  
     when "int"
       _, index = eat("IDENTIFIER", tokens, index)
       _, index = eat("COLON", tokens, index)
@@ -30,6 +31,14 @@ def parse(tokens, errLogger)
       else
         errLogger.add_error("ERROR, expected an intenger but got: #{typeof(value_current)}\nlunarMyth, parser index:#{index}")
       end
+    when "readOutIntVar"
+      _, index = eat("IDENTIFIER", tokens, index)
+      _, index = eat("LPARA", tokens, index)
+      variableData, index = eat("IDENTIFIER", tokens, index)
+      _, index = eat("RPARA", tokens, index)
+      variableName = variableData[:value]
+      ast_item = AST_hash{"type" => "readIntVariable", "value" => variableName}
+      ast << ast_item
     else 
       errLogger.add_error("ERROR, #{tokens[index][:value]} was not found as a valid statement\nlunarMyth, parser index:#{index}\n\n")
       index += 1

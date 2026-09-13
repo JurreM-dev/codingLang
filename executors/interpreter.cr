@@ -8,6 +8,8 @@ def evaluate(ast)
         puts ast[index]["value"]
       when "variableDeclarationInt"
         intenger_vars[ast[index]["name"].as(String)] = ast[index]["value"].as(Int32)
+      when "readIntVariable"
+        puts intenger_vars[ast[index]["value"]]
       else
         puts "error in interpreter"
       end
