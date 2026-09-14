@@ -1,1 +1,1 @@
-printf('hello world')
+printf('hello world') String: name = 'John' readOutStringVar(name)

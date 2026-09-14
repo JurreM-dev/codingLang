@@ -11,6 +11,8 @@ def evaluate(ast)
         integer_vars[ast[index]["name"].as(String)] = ast[index]["value"].as(Int32)
       when "readIntVariable"
         puts integer_vars[ast[index]["value"]]
+      when "readStringVariable"
+        puts string_vars[ast[index]["value"]]
       when "variableDeclarationString"
         string_vars[ast[index]["name"].as(String)] = ast[index]["value"].as(String)
       else

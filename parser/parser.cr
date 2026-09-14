@@ -73,7 +73,15 @@ class Parser
             "value" => value_current
           }
         ast << ast_item
-  
+      when "readOutStringVar"
+        eat("IDENTIFIER")
+        eat("LPARA")
+        variableData = eat("IDENTIFIER")
+        eat("RPARA")
+
+        variableName = variableData[:value]
+        ast_item = AST_hash{"type" => "readStringVariable", "value" => variableName}
+        ast << ast_item
       else
         @errLogger.add_error(
           "ERROR, #{@tokens[@index][:value]} was not found as a valid statement\nlunarMyth, parser index:#{@index}\n\n"
