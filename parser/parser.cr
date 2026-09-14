@@ -25,7 +25,7 @@ class Parser
         ast_item = AST_hash{"type" => "printing", "value" => value_current}
         ast << ast_item
   
-      when "int"
+      when "Int"
         eat("IDENTIFIER")
         eat("COLON")
         name = eat("IDENTIFIER")
@@ -58,7 +58,22 @@ class Parser
         variableName = variableData[:value]
         ast_item = AST_hash{"type" => "readIntVariable", "value" => variableName}
         ast << ast_item
-
+  
+      when "String"
+        eat("IDENTIFIER")
+        eat("COLON")
+        name = eat("IDENTIFIER")
+        eat("EQUALS")
+        used_value = eat("STRING")
+        varName = name[:value]
+        value_current = used_value[:value]
+        ast_item = AST_hash{
+            "type" => "variableDeclarationString",
+            "name" => varName,
+            "value" => value_current
+          }
+        ast << ast_item
+  
       else
         @errLogger.add_error(
           "ERROR, #{@tokens[@index][:value]} was not found as a valid statement\nlunarMyth, parser index:#{@index}\n\n"
