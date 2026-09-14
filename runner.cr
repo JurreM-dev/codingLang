@@ -13,6 +13,11 @@ if(ARGV[0])
     errLogger.error_log()
     exit(1)
   end
+  unless File.exists?(file)
+    errLogger.add_error("ERROR, file #{file} foes not exist")
+    errLogger.error_log()
+    exit(1)
+  end
   fileContent = File.read(ARGV[0])
   tokens = tokenize(fileContent)
   parser = Parser.new(tokens, errLogger)
