@@ -1,4 +1,4 @@
-alias AST_hash = Hash(String, String | Int32)
+alias AST_hash = Hash(String, String | Int32 | Bool)
 
 class Parser
   @tokens : Array(NamedTuple(type: String, value: String))
@@ -73,6 +73,7 @@ class Parser
             "value" => value_current
           }
         ast << ast_item
+  
       when "readOutStringVar"
         eat("IDENTIFIER")
         eat("LPARA")
@@ -82,6 +83,22 @@ class Parser
         variableName = variableData[:value]
         ast_item = AST_hash{"type" => "readStringVariable", "value" => variableName}
         ast << ast_item
+
+      when "Boolean"
+        eat("IDENTIFIER")
+        eat("COLON")
+        name = eat("IDENTIFIER")
+        eat("EQUALS")
+        used_value = eat("IDENTIFIER")
+        varName = name[:value]
+        value_current = used_value[:value]
+        ast_item = AST_hash{
+            "type" => "variableDeclarationBool",
+            "name" => varName,
+            "value" => value_current
+          }
+        ast << ast_item
+  
       else
         @errLogger.add_error(
           "ERROR, #{@tokens[@index][:value]} was not found as a valid statement\nlunarMyth, parser index:#{@index}\n\n"
