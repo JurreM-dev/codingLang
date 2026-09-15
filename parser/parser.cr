@@ -91,7 +91,7 @@ class Parser
         eat("EQUALS")
         used_value = eat("IDENTIFIER")
         varName = name[:value]
-        value_current = used_value[:value]
+        value_current = (used_value[:value].downcase == "true")
         ast_item = AST_hash{
             "type" => "variableDeclarationBool",
             "name" => varName,

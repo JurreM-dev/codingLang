@@ -3,6 +3,7 @@ def evaluate(ast)
   index = 0
   integer_vars = Hash(String, Int32).new
   string_vars = Hash(String, String).new
+  boolean_vars = Hash(String, Bool).new
   while index < ast.size
     case ast[index]["type"]
       when "printing"
@@ -15,6 +16,8 @@ def evaluate(ast)
         puts string_vars[ast[index]["value"]]
       when "variableDeclarationString"
         string_vars[ast[index]["name"].as(String)] = ast[index]["value"].as(String)
+      when "variableDeclarationBool"
+        boolean_vars[ast[index]["name"].as(String)] = ast[index]["value"].as(Bool)
       else
         puts "error in interpreter"
       end
