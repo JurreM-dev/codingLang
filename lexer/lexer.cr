@@ -57,6 +57,20 @@ def tokenize(content)
         type: "NUM",
         value: value
       })
+    elsif chars[index] == "."
+        next_index = index + 1
+        if next_index < chars.size && /[a-zA-Z0-9_]/.match(chars[next_index])
+            methodValue = ""
+            while next_index < chars.size && /[a-zA-Z0-9_]/.match(chars[next_index])
+                methodValue += chars[next_index]
+                index += 1
+                next_index += 1
+            end
+            return_chars.push({type: "METHOD", value: methodValue})
+        else
+            return_chars.push({type: "DOT", value: "."})
+        end
+
     elsif(chars[index] == "/"); return_chars.push({type: "FDASH", value: "/"})
     elsif(chars[index] == "\\"); return_chars.push({type: "LDASH", value: "\\"})
     elsif(chars[index] == "("); return_chars.push({type: "LPARA", value: "("})
