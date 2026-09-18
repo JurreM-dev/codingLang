@@ -10,6 +10,11 @@ if(user_input == "save")
   savedVars << item
   savedVars << item2
   content = prepareSave(saveName, savedVars)
+  saveName2 = "trySave"
+  savedVars2 = Array(Save_item).new
+  item12 = saveInt("okay", 2)
+  savedVars2 << item12
+  content += prepareSave(saveName2, savedVars2)
   File.write(".localSave.txt", content)
 elsif(user_input == "load") 
   if File.exists?(".localSave.txt")
@@ -17,7 +22,22 @@ elsif(user_input == "load")
     fileComponents = fileContent.split(/[\[\]]/)
     fileComponents.shift
     puts fileComponents
-    puts fileComponents.size
+    targetSave = "trySave"
+    saveDataFound = ""
+    cursor = 0
+    while cursor < fileComponents.size
+        nameFound = fileComponents[cursor]
+        if(nameFound == targetSave)
+          cursor += 1
+          saveDataFound = fileComponents[cursor]
+          cursor += 1
+        else 
+          cursor += 2
+        end
+    end
+    if(saveDataFound != "")
+      puts saveDataFound
+    end
   else
     puts "error"
   end
