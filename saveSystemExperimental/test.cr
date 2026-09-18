@@ -21,12 +21,11 @@ elsif(user_input == "load")
     fileContent = File.read(".localSave.txt")
     fileComponents = fileContent.split(/[\[\]]/)
     fileComponents.shift
-    puts fileComponents
     targetSave = "trySave"
     saveDataFound = ""
     cursor = 0
     while cursor < fileComponents.size
-        nameFound = fileComponents[cursor]
+        nameFound = fileComponents[cursor].strip
         if(nameFound == targetSave)
           cursor += 1
           saveDataFound = fileComponents[cursor]
@@ -36,7 +35,10 @@ elsif(user_input == "load")
         end
     end
     if(saveDataFound != "")
-      puts saveDataFound
+      foundDataParts = saveDataFound.split("\n|{l&l}|\n")
+      foundDataParts.each do |part|
+        puts part
+      end
     end
   else
     puts "error"
@@ -48,7 +50,7 @@ end
 def prepareSave(saveName : String, vars)
   saveValue = "[#{saveName}]\n"
   vars.each do |var|
-  saveValue += "#{var["name"]}:#{var["type"]}=#{var["value"]}\n"
+  saveValue += "#{var["name"]}:#{var["type"]}=#{var["value"]}\n|{l&l}|\n"
   end
   return saveValue
 end
