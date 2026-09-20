@@ -4,6 +4,34 @@ class Saving
   def saveInt(saveKey : String, variable : Int, variableName : String)
     item = prepSaveInt(variableName, variable)
     content = prepareSave(saveKey, item)
+    if(File.exists?(".localSave.txt"))
+      fileContent = File.read(".localSave.txt")
+      fileComponents = fileContent.split(/[\[\]]/)
+      fileComponents.shift
+      targetName = saveKey
+      cursor = 0
+      newWrite = ""
+      saveExists = false
+      while cursor < fileComponents.size
+        nameFound = fileComponents[cursor].strip
+        if(nameFound == targetName)
+          newWrite += content
+          saveExists = true
+          cursor += 2
+        else
+          newWrite += "[#{nameFound}]"
+          cursor += 1
+          newWrite += fileComponents[cursor]
+          cursor += 1
+        end
+      end
+      if(!saveExists) 
+        newWrite += content
+      end
+      File.write(".localSave.txt", newWrite)
+    else
+      File.write(".localSave.txt", content)
+    end
   end
 
 
