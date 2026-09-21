@@ -32,6 +32,19 @@ class Saving
     else
       File.write(".localSave.txt", content)
     end
+
+    def loadInt(saveKey : String) 
+      if(!File.exists?(".localSave.txt"))
+        puts "error, file used for saving doesn't exist, could not load save"
+        exit(1)
+      end
+      fileContent = File.read(".localSave.txt")
+      fileComponents = fileContent.split(/[\[\]]/)
+      fileComponents.shift
+      targetName = saveKey
+      cursor = 0
+      saveExists = false
+    end
   end
 
 
