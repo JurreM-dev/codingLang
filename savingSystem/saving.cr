@@ -32,6 +32,7 @@ class Saving
     else
       File.write(".localSave.txt", content)
     end
+  end
 
     def loadInt(saveKey : String) 
       if(!File.exists?(".localSave.txt"))
@@ -44,8 +45,17 @@ class Saving
       targetName = saveKey
       cursor = 0
       saveExists = false
+
+      foundSave : Int
+      while cursor < fileComponents.size
+        nameFound = fileComponents[cursor].strip
+        if(nameFound == targetName)
+          saveExists = true
+          cursor += 1
+          valueFound = fileComponents[cursor]
+        end
+      end
     end
-  end
 
 
   # HELPER FUNCTIONS
