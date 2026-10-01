@@ -6,6 +6,7 @@ require "./savingSystem/saving"
 
 errLogger = ErrorLogger.new
 fileContent = ""
+saver = Saving.new
 
 if(ARGV[0])
   file = ARGV[0]

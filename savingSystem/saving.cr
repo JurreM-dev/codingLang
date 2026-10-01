@@ -1,7 +1,7 @@
 alias Save_item = Hash(String, String|Int32)
 class Saving
   # SAVING 
-  def saveInt(saveKey : String, variable : Int, variableName : String)
+  def saveInt(saveKey : String, variableName : String, variable : Int32)
     item = prepSaveInt(variableName, variable)
     content = prepareSave(saveKey, item)
     if(File.exists?(".localSave.txt"))
@@ -46,15 +46,22 @@ class Saving
       cursor = 0
       saveExists = false
 
-      foundSave : Int
+      foundSave = 0
       while cursor < fileComponents.size
         nameFound = fileComponents[cursor].strip
         if(nameFound == targetName)
           saveExists = true
           cursor += 1
           valueFound = fileComponents[cursor]
+          break
+        else
+          cursor += 2
         end
       end
+      if(!saveExists) 
+        foundSave = 0
+      end
+      return foundSave
     end
 
 
