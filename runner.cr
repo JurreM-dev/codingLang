@@ -6,19 +6,15 @@ require "./savingSystem/saving"
 
 errLogger = ErrorLogger.new
 fileContent = ""
-saver = Saving.new
+saver = Saving.new(errLogger)
 
 if(ARGV[0])
   file = ARGV[0]
   unless file.ends_with?(".myth")
-    errLogger.add_error("ERROR, expected .myth file")
-    errLogger.error_log()
-    exit(1)
+    errLogger.fatalErr("ERROR, expected .myth file")
   end
   unless File.exists?(file)
-    errLogger.add_error("ERROR, file #{file} foes not exist")
-    errLogger.error_log()
-    exit(1)
+    errLogger.fatalErr("ERROR, file #{file} foes not exist")
   end
   fileContent = File.read(ARGV[0])
   tokens = tokenize(fileContent)
@@ -26,6 +22,5 @@ if(ARGV[0])
   ast = parser.parse
   evaluate(ast)
 else 
-  errLogger.add_error("ERROR, expected a file to parse")
-  errLogger.error_log()
+  errLogger.fatalErr("ERROR, expected a file to parse")
 end

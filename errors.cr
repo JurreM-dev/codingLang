@@ -19,4 +19,10 @@ class ErrorLogger
       puts "=========================================="
     end
   end
+
+  def fatalErr(error : String)
+    add_error(error)
+    error_log
+    exit(1)
+  end
 end

@@ -1,5 +1,9 @@
 alias Save_item = Hash(String, String|Int32)
 class Saving
+  @errLogger : ErrorLogger
+  def initialize(errLogger)
+    @errLogger = errLogger
+  end
   # SAVING 
   def saveInt(saveKey : String, variableName : String, variable : Int32)
     item = prepSaveInt(variableName, variable)
@@ -36,8 +40,7 @@ class Saving
 
     def loadInt(saveKey : String) 
       if(!File.exists?(".localSave.txt"))
-        puts "error, file used for saving doesn't exist, could not load save"
-        exit(1)
+        @errLogger.fatalErr("error, file used for saving doesn't exist, could not load save")
       end
       fileContent = File.read(".localSave.txt")
       fileComponents = fileContent.split(/[\[\]]/)
